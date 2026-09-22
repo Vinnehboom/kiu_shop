@@ -1,0 +1,62 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+inherit_mode:
+  merge:
+    - Exclude
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    # Copied verbatim from the Solidus engines. Editing one breaks the next
+    # `solidus:update`, so they are not this project's code to style.
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
+    - 'bin/**/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'storage/**/*'
+
+Layout/LineLength:
+  Max: 120
+Metrics/BlockLength:
+  Max: 30
+Metrics/ModuleLength:
+  Max: 100
+  Exclude:
+    - 'spec/**/*_spec.rb'
+Metrics/ClassLength:
+  Max: 100
+Metrics/MethodLength:
+  Max: 20
+Metrics/AbcSize:
+  Max: 32
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - staging
+    - test
+    - development
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/DocumentDynamicEvalDefinition:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Max: 6
+RSpec/MultipleMemoizedHelpers:
+  Max: 12
+RSpec/InstanceVariable:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/ImplicitSubject:
+  Enabled: false
+RSpec/ExampleLength:
+  Max: 20

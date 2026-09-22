@@ -1,0 +1,10 @@
+{
+  "_comment": "Shared pointers to this project's coding-style docs in Notion. Written to by the coding-style skill, read by ticket-pipeline before it implements a ticket.",
+  "notion_page_id": "3e34af79-fc01-8124-ab19-c00bd006237f",
+  "notion_page_url": "https://app.notion.com/p/3e34af79fc018124ab19c00bd006237f",
+  "rules_database": {
+    "description": "The Style Rules themselves, one row per rule. The row title is the rule as a terse imperative. The row body holds the reasoning and the boundaries. The guide page keeps the intro, the hot list and the Change Log.",
+    "notion_database_url": "https://app.notion.com/p/e20aed048f8c45aba97431f7c8d8286a",
+    "notion_data_source_url": "collection://d627d235-d7bb-4998-9d05-65b34ea92ac3"
+  }
+}

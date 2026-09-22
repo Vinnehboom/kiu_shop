@@ -1,0 +1,20 @@
+{
+  "_comment": "Shared pointers to this project's Notion knowledge base, read by ticket-pipeline so these pages are hardcoded in one place only. Companion to .claude/coding-style.json and .claude/kanban-cycle.json.",
+  "knowledge_base_page": {
+    "description": "Durable project context: what the shop is, the stack, the decisions that shape the work, and the environment caveats. The decisions log itself lives in decisions_database below.",
+    "notion_page_url": "https://app.notion.com/p/3e34af79fc018195a37ceacf6eb15067"
+  },
+  "decisions_database": {
+    "description": "One row per non-obvious architectural or domain decision, with a Status of Active, Superseded or Rejected. Written to by the ticket-pipeline curator on approval.",
+    "notion_database_url": "https://app.notion.com/p/16478c5f9be34fc6a722cfde13bd1cab",
+    "notion_data_source_url": "collection://9e4b9a2f-5583-4780-acba-10d222b5bad7"
+  },
+  "tech_debt_page": {
+    "description": "Running register of known technical debt. Assessments, not planned changes.",
+    "notion_page_url": "https://app.notion.com/p/3e34af79fc0181cfab15f6cc1b73b799"
+  },
+  "scoping_page": {
+    "description": "The original option analysis and the UK compliance notes, written before the project started. Read-only background. The decisions it left open are settled on the knowledge base page.",
+    "notion_page_url": "https://app.notion.com/p/3c74af79fc0181b8a1b2da4c135ea57d"
+  }
+}

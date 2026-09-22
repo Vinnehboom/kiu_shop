@@ -1,0 +1,24 @@
+{
+  "_comment": "Config for the kanban-cycle skill, read at the start of every cycle. This project runs its own orchestrator session, separate from the drafting app's. Both write to the same dashboard, each owning the documents keyed by its own project_key.",
+  "repo": "Vinnehboom/pottery-shop",
+  "notion_board_url": "https://app.notion.com/p/3e34af79fc0181528d5dd7ef0dc7d48a",
+  "_comment_caps": "Lower than the drafting app's on purpose. Nothing about this project's pipeline is proven yet, and the owner reviews every ticket-linked pull request himself. Raise max_open_prs once a few tickets have gone through end to end without a surprise.",
+  "max_open_prs": 2,
+  "min_open_prs": 1,
+  "max_stacked_prs": 1,
+  "orchestrator_cost_ceiling_usd": 50,
+  "orchestrator_branch": "main",
+  "_comment_maintenance_automerge_paths": "Mirrors the drafting app's grant, 2026-09-03: a maintenance pull request with no linked ticket, whose entire diff sits inside these paths, may merge on green CI alone. Deliberately narrow: the orchestrator's own files, never app code and never a migration.",
+  "maintenance_automerge_paths": [
+    ".claude/skills/**",
+    ".claude/settings.json",
+    ".claude/kanban-cycle.json",
+    "docs/orchestrator-handoff.md"
+  ],
+  "_comment_project_key": "This project's key on the shared dashboard. It owns state/pottery and the queue entries tagged with it. Changing it orphans this project's history on the board.",
+  "project_key": "pottery",
+  "project_name": "Pottery shop",
+  "dashboard_artifact_url": "https://claude.ai/code/artifact/4e7c2682-77bd-4f97-a646-420524dd547b",
+  "cycle_log_keep": 40,
+  "externally_owned_ticket_ids": []
+}

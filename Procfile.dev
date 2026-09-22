@@ -1,0 +1,3 @@
+web: bin/rails server
+admin_css: bin/rails solidus_admin:tailwindcss:watch
+css: bin/rails tailwindcss:watch
