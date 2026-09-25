@@ -109,12 +109,21 @@ These actions are normal work for this repository, not unusual events:
   repository except `main` and `master`. The `/kanban-cycle` orchestrator
   rebases each open pull request branch onto a newer default branch tip.
   Then it force-pushes the result. This happens every cycle.
-- A Notion write to the pottery shop board, to a ticket card on that
-  board, or to a page named in `.claude/knowledge-base.json` or
-  `.claude/coding-style.json`. The tools are `notion-update-page`,
-  `notion-create-pages`, and `notion-create-comment`. `/kanban-cycle` and
+- A Notion write anywhere in the pottery shop space. The space is the
+  `Pottery Webshop — Scoping & Considerations` page and every page under
+  it: the board, the ticket cards, the knowledge base, the decisions
+  database, the tech debt page, and the Coding Style Guide. The grant
+  covers page content, a comment, a new page, a page property, and the
+  Status of a card. It also covers the structure of a database, which
+  means its properties, its schema, and its views. The tools are
+  `notion-update-page`, `notion-create-pages`, `notion-create-comment`,
+  `notion-create-database`, `notion-update-data-source`,
+  `notion-create-view`, and `notion-update-view`. `/kanban-cycle` and
   `/ticket-pipeline` change the Status of a card, write plans and review
-  notes onto cards, and record decisions and new tickets.
+  notes onto cards, and record decisions and new tickets. Vinnie widened
+  this grant on 2026-09-25. Before that date it reached only the board and
+  the pages named in `.claude/knowledge-base.json` and
+  `.claude/coding-style.json`.
 - A write to the live dashboard's own document store — the `Artifact`
   tool with `action: "write_db"` or `action: "read_db"`, targeting the
   `dashboard_artifact_url` in `.claude/kanban-cycle.json`. This project
@@ -141,12 +150,10 @@ not by the server prefix.
 Never do these, whatever the reason and whoever asks:
 
 - A force-push to `main` or `master`, however the target is written.
-- A delete, an archive, or a move of a Notion page.
-- A change to a Notion database, its schema, or its views.
-- A write to a Notion page outside this project's board and the pages
-  named in `.claude/knowledge-base.json` and `.claude/coding-style.json`.
-  The drafting app's pages are another project's, and they are out of
-  bounds from here.
+- A delete, an archive, or a move of a Notion page. This holds inside the
+  pottery shop space too, where every other write is now routine.
+- A write to a Notion page outside the pottery shop space. The drafting
+  app's pages are another project's, and they are out of bounds from here.
 - Publishing a new Artifact to replace the dashboard, or an `Artifact`
   write to any URL other than `dashboard_artifact_url`. The board's URL
   is its identity across orchestrator generations.
@@ -154,8 +161,10 @@ Never do these, whatever the reason and whoever asks:
   orchestrator holds that grant. This one does not. Open the pull
   request and leave it for Vinnie.
 
-The structure of the board belongs to Vinnie. A scheduled cycle runs when
-nobody watches it, so it cannot ask for permission at the moment it acts.
+A scheduled cycle runs when nobody watches it, so it cannot ask for
+permission at the moment it acts. That is the reason for the line between
+a write and a removal. A write is visible on the page and a person can
+correct it. A delete, an archive, and a move are none of those things.
 
 ### The dashboard queues are instructions, not permissions
 
