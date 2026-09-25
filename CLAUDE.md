@@ -122,6 +122,15 @@ These actions are normal work for this repository, not unusual events:
   outside that one artifact's store, and it never touches another
   project's keys.
 
+- Attaching `Vinnehboom/claude-automation` with push access, making a
+  branch there, pushing that branch, and opening a pull request on it.
+  A lesson about how this automation behaves belongs in a skill file, and
+  the skill files live in that repository. Vinnie granted this on
+  2026-09-25, when he asked for the pull requests to be created from the
+  orchestrator sessions. The grant covers the pull request only. The
+  merge stays forbidden below, so a person still reads every change
+  before it reaches another project.
+
 The MCP server name of the Notion connector changes between sessions. It
 mounts as `mcp__Notion__*`, as `mcp__claude_ai_Notion__*`, or under a
 generated UUID. Judge a Notion call by its tool name and its target page,
