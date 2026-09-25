@@ -3,6 +3,9 @@ name: CI
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: lint
@@ -20,6 +23,7 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:16
@@ -49,10 +53,22 @@ jobs:
           sudo apt-get install -y libvips42
 
       - name: Prepare the database
-        run: bin/rails db:prepare
+        run: bin/rails db:create db:schema:load
 
       - name: Build Tailwind CSS
         run: bin/rails tailwindcss:build
 
       - name: Run RSpec
         run: bundle exec rspec
+
+      - name: Upload Capybara screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capybara-screenshots
+          path: |
+            screenshot_*.png
+            screenshot_*.html
+            tmp/capybara/**
+            tmp/screenshots/**
+          if-no-files-found: ignore
