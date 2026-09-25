@@ -1,6 +1,6 @@
 {
   "_comment": "Config for the kanban-cycle skill, read at the start of every cycle. This project runs its own orchestrator session, separate from the drafting app's. Both write to the same dashboard, each owning the documents keyed by its own project_key.",
-  "repo": "Vinnehboom/pottery-shop",
+  "repo": "Vinnehboom/kiu_shop",
   "notion_board_url": "https://app.notion.com/p/3e34af79fc0181528d5dd7ef0dc7d48a",
   "_comment_caps": "Lower than the drafting app's on purpose. Nothing about this project's pipeline is proven yet, and the owner reviews every ticket-linked pull request himself. Raise max_open_prs once a few tickets have gone through end to end without a surprise.",
   "max_open_prs": 2,

@@ -18,20 +18,20 @@ if [ -d "$RBENV_BIN" ]; then
   export PATH="$RBENV_BIN:$PATH"
 fi
 
-if [ -n "${POTTERY_SHOP_TEST_KEY:-}" ] && [ ! -f config/credentials/test.key ]; then
+if [ -n "${KIU_SHOP_TEST_KEY:-}" ] && [ ! -f config/credentials/test.key ]; then
   mkdir -p config/credentials
-  printf '%s' "$POTTERY_SHOP_TEST_KEY" > config/credentials/test.key
+  printf '%s' "$KIU_SHOP_TEST_KEY" > config/credentials/test.key
   chmod 600 config/credentials/test.key
 fi
 
-if [ -n "${POTTERY_SHOP_GIT_SIGNING_KEY:-}" ]; then
+if [ -n "${KIU_SHOP_GIT_SIGNING_KEY:-}" ]; then
   if ! command -v ssh-keygen >/dev/null 2>&1; then
     sudo apt-get update -qq || true
     sudo apt-get install -y -qq openssh-client || true
   fi
-  SIGNING_KEY_PATH="$HOME/.ssh/pottery_shop_signing"
+  SIGNING_KEY_PATH="$HOME/.ssh/kiu_shop_signing"
   mkdir -p "$HOME/.ssh"
-  printf '%s\n' "$POTTERY_SHOP_GIT_SIGNING_KEY" > "$SIGNING_KEY_PATH"
+  printf '%s\n' "$KIU_SHOP_GIT_SIGNING_KEY" > "$SIGNING_KEY_PATH"
   chmod 600 "$SIGNING_KEY_PATH"
   git config gpg.format ssh
   git config user.signingkey "$SIGNING_KEY_PATH"
