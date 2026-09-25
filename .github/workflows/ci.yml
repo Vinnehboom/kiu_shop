@@ -16,3 +16,43 @@ jobs:
 
       - name: Run RuboCop
         run: bundle exec rubocop
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/pottery_shop_test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install libvips
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips42
+
+      - name: Prepare the database
+        run: bin/rails db:prepare
+
+      - name: Build Tailwind CSS
+        run: bin/rails tailwindcss:build
+
+      - name: Run RSpec
+        run: bundle exec rspec
