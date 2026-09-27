@@ -3,6 +3,8 @@
 require 'solidus_starter_frontend_spec_helper'
 
 RSpec.describe 'Promotion Code Invalidation', type: :system, js: true do
+  include SolidusStarterFrontend::System::CheckoutHelpers
+
   let!(:promotion) do
     FactoryBot.create(
       :promotion_with_item_adjustment,
@@ -17,13 +19,8 @@ RSpec.describe 'Promotion Code Invalidation', type: :system, js: true do
     FactoryBot.create(:product_in_stock, name: "DL-44")
     FactoryBot.create(:product_in_stock, name: "E-11")
 
-    visit products_path
-    click_link "DL-44"
-    click_button "Add To Cart"
-
-    visit products_path
-    click_link "E-11"
-    click_button "Add To Cart"
+    add_to_cart("DL-44")
+    add_to_cart("E-11")
   end
 
   it 'adding the promotion to a cart with two applicable items' do
@@ -45,9 +42,7 @@ RSpec.describe 'Promotion Code Invalidation', type: :system, js: true do
     end
 
     # Add it back
-    visit products_path
-    click_link "DL-44"
-    click_button "Add To Cart"
+    add_to_cart("DL-44")
     within("#cart_adjustments") do
       expect(page).to have_content("-$10.00")
     end

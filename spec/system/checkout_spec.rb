@@ -34,6 +34,7 @@ RSpec.describe 'Checkout', :js, type: :system do
       before do
         add_mug_to_cart
         click_button "Checkout"
+        expect(page).to have_css('#guest_checkout')
       end
 
       it 'goes to address state', js: true do
@@ -110,6 +111,7 @@ RSpec.describe 'Checkout', :js, type: :system do
 
         add_mug_to_cart
         click_button "Checkout"
+        expect(page).to have_css('#billing')
         # We need an order reload here to get newly associated addresses.
         # Then we go back to address where we are supposed to be redirected.
         order.reload
@@ -171,6 +173,7 @@ RSpec.describe 'Checkout', :js, type: :system do
         before do
           add_mug_to_cart
           click_button "Checkout"
+          expect(page).to have_css('#guest_checkout')
 
           # Simulate user login
           Spree::Order.last.associate_user!(user)
@@ -435,9 +438,7 @@ RSpec.describe 'Checkout', :js, type: :system do
       click_on "Save and Continue"
       expect(page).to have_current_path(checkout_state_path("payment"))
 
-      visit products_path
-      click_link bag.name
-      click_button "add-to-cart-button"
+      add_to_cart(bag.name)
 
       click_on "Checkout"
       # edit an address field
@@ -473,6 +474,7 @@ RSpec.describe 'Checkout', :js, type: :system do
         end
 
         click_on "Update"
+        expect(page).to have_content("Subtotal (3 items)")
       end
 
       it "redirects user back to address step" do
@@ -484,6 +486,7 @@ RSpec.describe 'Checkout', :js, type: :system do
         visit checkout_state_path("payment")
         click_on "Save and Continue"
         click_on "Save and Continue"
+        expect(page).to have_current_path(checkout_state_path("payment"))
 
         expect(Spree::InventoryUnit.count).to eq 3
       end
@@ -493,9 +496,7 @@ RSpec.describe 'Checkout', :js, type: :system do
       let!(:bag) { create(:product, name: "RoR Bag") }
 
       before do
-        visit products_path
-        click_link bag.name
-        click_button "add-to-cart-button"
+        add_to_cart(bag.name)
       end
 
       it "redirects user back to address step" do
@@ -507,6 +508,7 @@ RSpec.describe 'Checkout', :js, type: :system do
         visit checkout_state_path("payment")
         click_on "Save and Continue"
         click_on "Save and Continue"
+        expect(page).to have_current_path(checkout_state_path("payment"))
 
         expect(Spree::InventoryUnit.count).to eq 2
       end
@@ -639,6 +641,7 @@ RSpec.describe 'Checkout', :js, type: :system do
       click_button "Save and Continue"
       check 'Agree to Terms of Service'
       click_button "Place Order"
+      expect(page).to have_content(I18n.t('spree.order_processed_successfully'))
     end
 
     it "displays a thank you message" do
@@ -757,8 +760,6 @@ RSpec.describe 'Checkout', :js, type: :system do
   end
 
   def add_mug_to_cart
-    visit products_path
-    click_link mug.name
-    click_button "add-to-cart-button"
+    add_to_cart(mug.name)
   end
 end

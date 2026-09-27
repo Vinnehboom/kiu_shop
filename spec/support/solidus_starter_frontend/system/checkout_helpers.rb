@@ -27,8 +27,30 @@ module SolidusStarterFrontend
       end
 
       #
+      # Cart
+      #
+      def add_to_cart(product_name)
+        visit products_path
+        click_link product_name
+        click_button 'add-to-cart-button'
+        expect_cart_page
+      end
+
+      def expect_cart_page
+        expect(page).to have_css('h1', text: 'Shopping Cart')
+      end
+
+      #
       # Authentication
       #
+      def log_in(user)
+        visit login_path
+        fill_in 'Email', with: user.email
+        fill_in 'Password:', with: user.password
+        click_button 'Login'
+        expect(page).to have_content(I18n.t('spree.logged_in_succesfully'))
+      end
+
       def checkout_as_guest
         click_button "Checkout"
 
