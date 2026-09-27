@@ -1,0 +1,34 @@
+<div data-hook="admin_product_form_piece_details">
+  <div class="row">
+    <div class="col-6">
+      <%= f.field_container :clay do %>
+        <%= f.label :clay %>
+        <%= f.text_field :clay %>
+      <% end %>
+    </div>
+    <div class="col-6">
+      <%= f.field_container :glaze do %>
+        <%= f.label :glaze %>
+        <%= f.text_field :glaze %>
+      <% end %>
+    </div>
+  </div>
+
+  <div data-hook="admin_product_form_food_safe">
+    <%= f.field_container :food_safe do %>
+      <label>
+        <%= f.check_box :food_safe %>
+        <%= Spree::Product.human_attribute_name(:food_safe) %>
+      </label>
+    <% end %>
+  </div>
+
+  <div data-hook="admin_product_form_dishwasher_safe">
+    <%= f.field_container :dishwasher_safe do %>
+      <label>
+        <%= f.check_box :dishwasher_safe %>
+        <%= Spree::Product.human_attribute_name(:dishwasher_safe) %>
+      </label>
+    <% end %>
+  </div>
+</div>

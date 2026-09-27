@@ -60,6 +60,7 @@ end
 gem "solidus", "~> 4.4"
 gem "solidus_auth_devise"
 gem "solidus_admin", ">= 0.2"
+gem "deface"
 
 group :test do
   gem "capybara"
