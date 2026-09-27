@@ -691,6 +691,7 @@ RSpec.describe 'Checkout', :js, type: :system do
         fill_in "Zip", with: "H0H0H0"
 
         click_on 'Save and Continue'
+        expect(page).to have_content(I18n.t('spree.items_cannot_be_shipped'))
         visit checkout_state_path(:address)
 
         expect(page).to have_field(state_name_css, with: xss_string)
