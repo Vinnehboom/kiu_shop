@@ -76,7 +76,7 @@ RSpec.feature 'Checkout', :js, type: :system do
     end
 
     scenario 'associate an uncompleted guest order with user after logging in' do
-      user = create(:user, email: 'email@person.com', password: 'password', password_confirmation: 'password')
+      user = create(:user, email: 'email@person.com', password: 'glazed-kiln-2931')
       click_link 'Solidus hoodie'
       click_button 'Add To Cart'
       expect_cart_page
