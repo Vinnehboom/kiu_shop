@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_074823) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_27_193934) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -477,6 +477,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_074823) do
     t.string "meta_title"
     t.datetime "discontinue_on", precision: nil
     t.integer "primary_taxon_id"
+    t.jsonb "details", default: {}, null: false
+    t.boolean "food_safe", default: false, null: false
+    t.boolean "dishwasher_safe", default: false, null: false
     t.index ["available_on"], name: "index_spree_products_on_available_on"
     t.index ["deleted_at"], name: "index_spree_products_on_deleted_at"
     t.index ["name"], name: "index_spree_products_on_name"
