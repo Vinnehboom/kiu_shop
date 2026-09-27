@@ -34,7 +34,7 @@ RSpec.feature 'Checkout', :js, type: :system do
     stub_spree_preferences(Spree::Auth::Config, registration_step: true)
     click_link 'Solidus hoodie'
     click_button 'Add To Cart'
-    within('h1') { expect(page).to have_text 'Shopping Cart' }
+    expect_cart_page
     click_button 'Checkout'
 
     within '#guest_checkout' do
@@ -53,7 +53,7 @@ RSpec.feature 'Checkout', :js, type: :system do
     scenario 'allow a visitor to checkout as guest, without registration' do
       click_link 'Solidus hoodie'
       click_button 'Add To Cart'
-      within('h1') { expect(page).to have_text 'Shopping Cart' }
+      expect_cart_page
       click_button 'Checkout'
 
       expect(page).to have_content(/Checkout as a Guest/i)
@@ -79,15 +79,13 @@ RSpec.feature 'Checkout', :js, type: :system do
       user = create(:user, email: 'email@person.com', password: 'password', password_confirmation: 'password')
       click_link 'Solidus hoodie'
       click_button 'Add To Cart'
+      expect_cart_page
 
-      visit login_path
-      fill_in 'Email', with: user.email
-      fill_in 'Password:', with: user.password
-      click_button 'Login'
-      click_link 'Cart'
+      log_in(user)
+      visit cart_path
 
       expect(page).to have_text 'Solidus hoodie'
-      within('h1') { expect(page).to have_text 'Shopping Cart' }
+      expect_cart_page
 
       click_button 'Checkout'
 
@@ -108,6 +106,7 @@ RSpec.feature 'Checkout', :js, type: :system do
       create(:user, email: 'email@person.com', password: 'password', password_confirmation: 'password')
       click_link 'Solidus hoodie'
       click_button 'Add To Cart'
+      expect_cart_page
 
       visit login_path
       click_link 'Forgot Password?'
