@@ -61,6 +61,17 @@ jobs:
       - name: Run RSpec
         run: bundle exec rspec
 
+      - name: Print the pages of failed system specs
+        if: failure()
+        run: |
+          bundle exec ruby -rnokogiri -e '
+            Dir["tmp/capybara/screenshot_*.html"].sort.each do |file|
+              puts "::group::#{file}"
+              puts Nokogiri::HTML(File.read(file)).at("body")&.text.to_s.gsub(/\s*\n\s*/, "\n")
+              puts "::endgroup::"
+            end
+          '
+
       - name: Upload Capybara screenshots
         if: failure()
         uses: actions/upload-artifact@v4

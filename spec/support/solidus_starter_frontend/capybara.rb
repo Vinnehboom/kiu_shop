@@ -16,6 +16,9 @@ RSpec.configure do |config|
     screen_size = example.metadata[:screen_size] || [1800, 1400]
     driven_by(:selenium, using: :headless_chrome, screen_size: screen_size) do |capabilities|
       capabilities.add_argument("--disable-search-engine-choice-screen")
+      capabilities.add_argument("--disable-features=PasswordLeakDetection")
+      capabilities.add_preference("credentials_enable_service", false)
+      capabilities.add_preference("profile.password_manager_enabled", false)
     end
   end
 end
