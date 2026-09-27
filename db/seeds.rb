@@ -9,3 +9,5 @@
 #   end
 Spree::Core::Engine.load_seed
 Spree::Auth::Engine.load_seed
+
+PotteryShop::StockLocationDefaults.enforce!
