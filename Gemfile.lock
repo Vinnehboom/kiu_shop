@@ -603,6 +603,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0)
   database_cleaner (~> 2.0)
   debug
+  deface
   factory_bot (>= 4.8)
   factory_bot_rails
   ffaker (~> 2.13)
