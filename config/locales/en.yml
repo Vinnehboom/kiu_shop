@@ -29,3 +29,14 @@
 
 en:
   hello: "Hello world"
+  products:
+    piece_details:
+      title: "Piece details"
+      dimensions: "Dimensions"
+  activerecord:
+    attributes:
+      spree/product:
+        clay: "Clay"
+        glaze: "Glaze"
+        food_safe: "Food safe"
+        dishwasher_safe: "Dishwasher safe"
