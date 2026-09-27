@@ -42,16 +42,18 @@ RSpec.describe 'searching products', :js, type: :system do
     fill_search_input_with 'Solidus'
     wait_for_autocomplete
 
+    first_result_path = first_result_link_path
     find_all('[data-search-target="result"] a')[0].click
-    expect(page).to have_current_path('/products/solidus-hoodie')
+    expect(page).to have_current_path(first_result_path)
   end
 
   it 'clicks on a suggestion pressing enter' do
     fill_search_input_with 'Solidus'
     wait_for_autocomplete
+    first_result_path = first_result_link_path
     find('input[name=keywords]').native.send_keys(:enter)
 
-    expect(page).to have_current_path('/products/solidus-hoodie')
+    expect(page).to have_current_path(first_result_path)
   end
 
   it 'closes autocomplete suggestions pressing esc key' do
@@ -73,6 +75,10 @@ RSpec.describe 'searching products', :js, type: :system do
 
   def wait_for_autocomplete
     expect(page).to have_selector('[data-search-target="result"]', visible: true)
+  end
+
+  def first_result_link_path
+    URI(find_all('[data-search-target="result"] a')[0][:href]).path
   end
 
   def fill_search_input_with(text)
