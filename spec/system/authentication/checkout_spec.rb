@@ -108,21 +108,7 @@ RSpec.feature 'Checkout', :js, type: :system do
       click_button 'Add To Cart'
       expect_cart_page
 
-      visit login_path
-      click_link 'Forgot Password?'
-      fill_in 'spree_user_email', with: 'email@person.com'
-      click_button 'Reset my password'
-
-      # Need to do this now because the token stored in the DB is the encrypted version
-      # The 'plain-text' version is sent in the email and there's one way to get that!
-      reset_password_email = ActionMailer::Base.deliveries.first
-      token_url_regex = /\/user\/password\/edit\?reset_password_token=(.*)$/
-      token = token_url_regex.match(reset_password_email.body.to_s)[1]
-
-      visit edit_spree_user_password_path(reset_password_token: token)
-      fill_in 'Password:', with: 'password'
-      fill_in 'Password Confirmation', with: 'password'
-      click_button 'Update'
+      reset_password('email@person.com', to: 'password')
 
       click_link 'Cart'
       click_button 'Checkout'
@@ -160,5 +146,27 @@ RSpec.feature 'Checkout', :js, type: :system do
       expect(page).to have_text 'Your order has been processed successfully'
       expect(Spree::Order.first.user).to eq Spree::User.find_by(email: 'email@person.com')
     end
+  end
+
+  def reset_password(email, to:)
+    visit login_path
+    click_link 'Forgot Password?'
+    fill_in 'spree_user_email', with: email
+    click_button 'Reset my password'
+    expect(page).to have_content(I18n.t('devise.user_passwords.spree_user.send_instructions'))
+
+    visit edit_spree_user_password_path(reset_password_token: emailed_reset_password_token)
+    fill_in 'Password:', with: to
+    fill_in 'Password Confirmation', with: to
+    click_button 'Update'
+    expect(page).to have_content(I18n.t('devise.user_passwords.spree_user.updated'))
+  end
+
+  # The token stored in the DB is the encrypted version.
+  # The 'plain-text' version is only sent in the email.
+  def emailed_reset_password_token
+    reset_password_email = ActionMailer::Base.deliveries.first
+    token_url_regex = /\/user\/password\/edit\?reset_password_token=(.*)$/
+    token_url_regex.match(reset_password_email.body.to_s)[1]
   end
 end
