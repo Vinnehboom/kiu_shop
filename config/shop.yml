@@ -1,0 +1,15 @@
+default: &default
+  name: "[Shop name]"
+  host: "localhost:3000"
+  mail_from: "shop@example.com"
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  name: <%= ENV["SHOP_NAME"].to_json %>
+  host: <%= (ENV["APP_HOST"] || ENV["RENDER_EXTERNAL_HOSTNAME"]).to_json %>
+  mail_from: <%= ENV["SHOP_MAIL_FROM"].to_json %>
