@@ -587,7 +587,7 @@ RSpec.describe 'Checkout', :js, type: :system do
       fill_in_credit_card
       click_button "Save and Continue"
 
-      expect(current_path).to eq checkout_state_path('confirm')
+      expect(page).to have_current_path(checkout_state_path('confirm'))
       check 'Agree to Terms of Service'
       click_button "Place Order"
     end
