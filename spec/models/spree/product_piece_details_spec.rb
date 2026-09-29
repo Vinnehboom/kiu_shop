@@ -79,4 +79,52 @@ RSpec.describe Spree::Product do
   it 'loads rows whose details are empty' do
     expect(create_piece_with_stored_details('{}').details).to eq(Piece::Details.empty)
   end
+
+  it "exposes its master's weight and dimensions as measurements" do
+    piece = create(:product, weight: 0.85, height: 12, width: 9, depth: 9)
+
+    expect(piece.reload.measurements).to eq(Piece::Measurements.new(0.85, 12, 9, 9))
+  end
+
+  it 'has empty measurements when no size is known' do
+    piece = create(:product, weight: nil, height: nil, width: nil, depth: nil)
+
+    expect(piece.reload.measurements).to be_empty
+  end
+
+  it 'exposes its safety claims as one value' do
+    piece = create(:product, food_safe: true, dishwasher_safe: false)
+
+    expect(piece.reload.safety_claims).to eq(Piece::SafetyClaims.new(true, false))
+  end
+
+  it 'reports a withdrawn safety claim on the next read' do
+    piece = create(:product, food_safe: true, dishwasher_safe: true)
+    expect(piece.safety_claims.claimed).to eq(%i[food_safe dishwasher_safe])
+
+    piece.update!(food_safe: false)
+    piece.dishwasher_safe = false
+
+    expect(piece.safety_claims).to be_empty
+  end
+
+  it 'reports a changed size on the next read' do
+    piece = create(:product, weight: 0.85, height: 12)
+    expect(piece.measurements.weight).to eq(0.85)
+
+    piece.update!(weight: 1.5, height: 20)
+    piece.width = 8
+    piece.depth = 7
+
+    expect(piece.measurements).to eq(Piece::Measurements.new(1.5, 20, 8, 7))
+  end
+
+  it 'reports a changed size on the master variant on the next read' do
+    variant = create(:product, weight: 1).master
+    expect(variant.measurements.weight).to eq(1)
+
+    variant.weight = 2
+
+    expect(variant.measurements.weight).to eq(2)
+  end
 end
