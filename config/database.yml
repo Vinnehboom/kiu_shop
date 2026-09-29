@@ -79,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: pottery_shop_production
-  username: pottery_shop
-  password: <%= ENV["POTTERY_SHOP_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
