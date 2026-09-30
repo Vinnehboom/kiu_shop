@@ -7,12 +7,8 @@ Piece::Details = Data.define(:clay, :glaze) do
     super
   end
 
-  def filled
-    to_h.compact_blank
-  end
-
   def empty?
-    filled.none?
+    to_h.values.all?(&:blank?)
   end
 
   def as_json(*)

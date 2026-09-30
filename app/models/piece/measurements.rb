@@ -3,6 +3,20 @@ Piece::Measurements = Data.define(:weight, :height, :width, :depth) do
     new(nil, nil, nil, nil)
   end
 
+  def empty?
+    !weight? && !dimensions?
+  end
+
+  def formatted_weight
+    format_number(weight) if weight?
+  end
+
+  def formatted_dimensions
+    dimensions.map { |dimension| format_number(dimension) }.join(' x ').presence
+  end
+
+  private
+
   def weight?
     weight.present? && weight.positive?
   end
@@ -10,20 +24,6 @@ Piece::Measurements = Data.define(:weight, :height, :width, :depth) do
   def dimensions?
     dimensions.any?
   end
-
-  def empty?
-    !weight? && !dimensions?
-  end
-
-  def formatted_weight
-    format_number(weight)
-  end
-
-  def formatted_dimensions
-    dimensions.map { |dimension| format_number(dimension) }.join(' x ')
-  end
-
-  private
 
   def dimensions
     [height, width, depth].compact
