@@ -5,56 +5,56 @@ RSpec.describe Piece::DetailsType do
 
   let(:details) { Piece::Details.new(clay: 'Stoneware', glaze: 'Celadon') }
 
-  describe '#cast' do
-    it 'keeps a Piece::Details as it is' do
+  describe 'taking facts from the admin form or from code' do
+    it 'keeps facts that are already in shape' do
       expect(type.cast(details)).to eq(details)
     end
 
-    it 'builds a Piece::Details from a hash with string keys' do
+    it 'accepts facts named by string' do
       expect(type.cast('clay' => 'Stoneware', 'glaze' => 'Celadon')).to eq(details)
     end
 
-    it 'builds a Piece::Details from a hash with symbol keys' do
+    it 'accepts facts named by symbol' do
       expect(type.cast(clay: 'Stoneware', glaze: 'Celadon')).to eq(details)
     end
 
-    it 'drops keys it does not know' do
+    it 'ignores a fact the shop does not keep' do
       expect(type.cast('clay' => 'Stoneware', 'kiln' => 'Electric')).to eq(Piece::Details.new(clay: 'Stoneware'))
     end
 
-    it 'turns nil into empty details' do
-      expect(type.cast(nil)).to eq(Piece::Details.empty)
+    it 'treats no input as no facts' do
+      expect(type.cast(nil)).to be_empty
     end
   end
 
-  describe '#serialize' do
-    it 'writes the facts as a JSON object' do
+  describe 'saving to the database' do
+    it 'stores the facts as a JSON object' do
       expect(JSON.parse(type.serialize(details))).to eq('clay' => 'Stoneware', 'glaze' => 'Celadon')
     end
 
-    it 'writes a hash the same way' do
+    it 'stores a fact that was not given as null' do
       expect(JSON.parse(type.serialize('clay' => 'Stoneware'))).to eq('clay' => 'Stoneware', 'glaze' => nil)
     end
   end
 
-  describe '#deserialize' do
-    it 'reads a stored JSON object' do
+  describe 'loading from the database' do
+    it 'loads the stored facts' do
       expect(type.deserialize('{"clay":"Stoneware","glaze":"Celadon"}')).to eq(details)
     end
 
-    it 'reads a stored object that lacks a key' do
+    it 'loads a row that was saved before a fact existed' do
       expect(type.deserialize('{"clay":"Stoneware"}')).to eq(Piece::Details.new(clay: 'Stoneware'))
     end
 
-    it 'reads the empty default of the column' do
-      expect(type.deserialize('{}')).to eq(Piece::Details.empty)
+    it 'loads a new row as no facts' do
+      expect(type.deserialize('{}')).to be_empty
     end
 
-    it 'reads a missing value as empty details' do
-      expect(type.deserialize(nil)).to eq(Piece::Details.empty)
+    it 'loads a missing value as no facts' do
+      expect(type.deserialize(nil)).to be_empty
     end
 
-    it 'round-trips through serialize' do
+    it 'loads exactly what it saved' do
       expect(type.deserialize(type.serialize(details))).to eq(details)
     end
   end

@@ -1,27 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe Piece::SafetyClaims do
-  describe '#claimed' do
-    it 'lists the claims that are true, in order' do
-      expect(described_class.new(true, true).claimed).to eq(%i[food_safe dishwasher_safe])
-    end
+  context 'when the seller claims both' do
+    subject { described_class.new(true, true) }
 
-    it 'leaves out a claim that is false' do
-      expect(described_class.new(false, true).claimed).to eq(%i[dishwasher_safe])
-    end
-
-    it 'leaves out a claim that is unknown' do
-      expect(described_class.new(nil, nil).claimed).to eq([])
-    end
+    it { is_expected.not_to be_empty }
+    it { is_expected.to have_attributes(claimed: %i[food_safe dishwasher_safe]) }
   end
 
-  describe '#empty?' do
-    it 'is true when nothing is claimed' do
-      expect(described_class.new(false, false)).to be_empty
-    end
+  context 'when the seller claims only one' do
+    subject { described_class.new(false, true) }
 
-    it 'is false when something is claimed' do
-      expect(described_class.new(true, false)).not_to be_empty
-    end
+    it { is_expected.not_to be_empty }
+    it { is_expected.to have_attributes(claimed: %i[dishwasher_safe]) }
+  end
+
+  context 'when the seller claims nothing' do
+    subject { described_class.new(false, false) }
+
+    it { is_expected.to be_empty }
+    it { is_expected.to have_attributes(claimed: []) }
+  end
+
+  context 'when nothing is known' do
+    subject { described_class.new(nil, nil) }
+
+    it { is_expected.to have_attributes(claimed: []) }
   end
 end
