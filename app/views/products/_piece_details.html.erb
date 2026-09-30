@@ -8,17 +8,13 @@
 
     <table class="product-properties__table">
       <tbody>
-        <% if measurements.weight? %>
-          <%= render 'products/piece_detail_row', label: Spree::Product.human_attribute_name(:weight), value: measurements.formatted_weight %>
-        <% end %>
-        <% if measurements.dimensions? %>
-          <%= render 'products/piece_detail_row', label: t('.dimensions'), value: measurements.formatted_dimensions %>
-        <% end %>
-        <% details.filled.each do |attribute, value| %>
-          <%= render 'products/piece_detail_row', label: Spree::Product.human_attribute_name(attribute), value: value %>
+        <%= render PieceDetailRowComponent.new(label: Spree::Product.human_attribute_name(:weight), value: measurements.formatted_weight) %>
+        <%= render PieceDetailRowComponent.new(label: t('.dimensions'), value: measurements.formatted_dimensions) %>
+        <% details.to_h.each do |fact, value| %>
+          <%= render PieceDetailRowComponent.new(label: Spree::Product.human_attribute_name(fact), value: value) %>
         <% end %>
         <% safety_claims.claimed.each do |claim| %>
-          <%= render 'products/piece_detail_row', label: Spree::Product.human_attribute_name(claim), value: t('spree.say_yes') %>
+          <%= render PieceDetailRowComponent.new(label: Spree::Product.human_attribute_name(claim), value: t('spree.say_yes')) %>
         <% end %>
       </tbody>
     </table>
