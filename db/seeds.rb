@@ -1,13 +1,25 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-Spree::Core::Engine.load_seed
-Spree::Auth::Engine.load_seed
+shop = Rails.configuration.x.shop
 
-PotteryShop::StockLocationDefaults.enforce!
+unless Spree::Store.exists?
+  ActiveRecord::Base.transaction do
+    %w[
+      store_credit
+      countries
+      return_reasons
+      states
+      stock_locations
+      zones
+      refund_reasons
+      roles
+      shipping_categories
+    ].each do |seed|
+      load Spree::Core::Engine.root.join("db/default/spree/#{seed}.rb")
+    end
+
+    ShopSetup::DefaultPermissionSets.new.call
+    PotteryShop::StockLocationDefaults.enforce!
+    ShopSetup::DefaultStore.new(name: shop.name, url: shop.host, mail_from: shop.mail_from).call
+  end
+end
+
+ShopSetup::FirstAdmin.new(email: ENV.fetch('ADMIN_EMAIL', nil), password: ENV.fetch('ADMIN_PASSWORD', nil)).call
