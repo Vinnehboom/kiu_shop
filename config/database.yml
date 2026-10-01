@@ -14,6 +14,8 @@
 #
 default: &default
   adapter: postgresql
+  username: pottery_shop
+  password: <%- Rails.application.credentials.db.password %>
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
@@ -22,6 +24,7 @@ default: &default
 development:
   <<: *default
   database: pottery_shop_development
+  password: pottery_shop_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -80,5 +83,3 @@ test:
 production:
   <<: *default
   database: pottery_shop_production
-  username: pottery_shop
-  password: <%= ENV["POTTERY_SHOP_DATABASE_PASSWORD"] %>

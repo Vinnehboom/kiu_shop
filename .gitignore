@@ -32,10 +32,11 @@
 /public/assets
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
+/config/credentials/*.key
 app/assets/builds/solidus_admin/
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
 # RSpec writes this after every run. It is local state, not source.
 /spec/examples.txt
+
