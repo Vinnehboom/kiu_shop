@@ -143,8 +143,8 @@ RSpec.describe 'Visiting Products', type: :system do
       image = File.open(
         File.join(Spree::Core::Engine.root, "lib", "spree", "testing_support", "fixtures", "blank.jpg")
       )
-      product.images.create!(attachment: image)
-      product.images.create!(attachment: image)
+      product.images.create!(attachment: image, alt: 'A photograph of the piece')
+      product.images.create!(attachment: image, alt: 'A photograph of the piece')
 
       product.option_types << option_value.option_type
       variant.option_values << option_value
@@ -180,8 +180,8 @@ RSpec.describe 'Visiting Products', type: :system do
       )
       v1 = product.variants.create!(price: 9.99)
       v2 = product.variants.create!(price: 10.99)
-      v1.images.create!(attachment: image)
-      v2.images.create!(attachment: image)
+      v1.images.create!(attachment: image, alt: 'A photograph of the piece')
+      v2.images.create!(attachment: image, alt: 'A photograph of the piece')
     end
 
     it 'does not display "no image available"' do
