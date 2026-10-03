@@ -10,8 +10,8 @@
           :li,
           data: { js: 'product-thumbnail', js_id: image.viewable_id }
         ) do %>
-          <%= link_to image.url(:product), class: thumbnails_class do %>
-            <%= image_tag(image.url(:small))  %>
+          <%= link_to image.url(:product), class: thumbnails_class, data: { large_url: image.url(:large), alt: image.alt } do %>
+            <%= image_tag(image.url(:small), alt: image.alt) %>
           <% end %>
         <% end %>
       <% end %>
@@ -25,8 +25,8 @@
           :li,
           data: { js: 'variant-thumbnail', js_id: image.viewable_id }
         ) do %>
-          <%= link_to image.url(:product), class: thumbnails_class do %>
-            <%= image_tag(image.url(:small))  %>
+          <%= link_to image.url(:product), class: thumbnails_class, data: { large_url: image.url(:large), alt: image.alt } do %>
+            <%= image_tag(image.url(:small), alt: image.alt) %>
           <% end %>
         <% end %>
       <% end %>

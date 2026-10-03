@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const thumbnailsLinks = document
     .querySelectorAll("[data-js='product-thumbnail'] a, [data-js='variant-thumbnail'] a");
   const productImage = document.querySelector("[data-js='product-main-image']");
+  const productImageLink = document.querySelector("[data-js='product-main-image-link']");
   const variantsThumbnails = document.querySelectorAll("[data-js='variant-thumbnail']");
 
   if (radios.length > 0) {
@@ -21,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
   thumbnailsLinks.forEach(thumbnailLink => {
     thumbnailLink.addEventListener('click', (event) => {
       event.preventDefault();
-      updateProductImage(thumbnailLink.href);
+      updateProductImage(thumbnailLink);
     });
   });
 
@@ -45,12 +46,15 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     if(variantsThumbnailsToDisplay.length) {
-      variantFirstImage = variantsThumbnailsToDisplay[0].querySelector('a').href
-      updateProductImage(variantFirstImage);
+      updateProductImage(variantsThumbnailsToDisplay[0].querySelector('a'));
     }
   };
 
-  function updateProductImage(imageSrc) {
-    productImage.src = imageSrc;
+  function updateProductImage(thumbnailLink) {
+    productImage.src = thumbnailLink.href;
+    productImage.alt = thumbnailLink.dataset.alt || '';
+    if (productImageLink) {
+      productImageLink.href = thumbnailLink.dataset.largeUrl;
+    }
   }
 });

@@ -1,11 +1,19 @@
-<div class="col-span-full md:col-span-9">
+<% main_image = product.gallery.images.first %>
+<% picture = capture do %>
   <picture class="flex justify-center items-center bg-gray-50 w-full h-full rounded-lg md:rounded-xl lg:rounded-2xl aspect-square">
     <%= render(ImageComponent.new(
-      image: product.gallery.images.first,
+      image: main_image,
       size: :product,
       itemprop: "image",
       data: { js: 'product-main-image' },
       class: 'object-contain'
     )) %>
   </picture>
+<% end %>
+<div class="col-span-full md:col-span-9">
+  <% if main_image %>
+    <%= link_to(main_image.url(:large), data: { js: 'product-main-image-link' }, class: 'block w-full h-full') { picture } %>
+  <% else %>
+    <%= picture %>
+  <% end %>
 </div>
