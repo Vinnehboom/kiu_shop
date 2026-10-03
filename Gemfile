@@ -92,3 +92,5 @@ end
 
 # json 3 removed the quirks_mode keyword that Active Support 7.1 still passes.
 gem "json", "< 3"
+
+gem "aws-sdk-s3", ">= 1.178", require: false
